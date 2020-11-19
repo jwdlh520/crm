@@ -7,10 +7,7 @@
   <properties resource="jdbc.properties"/>
   
   <typeAliases>
-  
-  	<!--<package name="com.xxx.domain"/>-->
-  	
-  
+  	<package name="com.itlaobing.crm.settings.dao"/>
   </typeAliases>
   
   <environments default="development">
@@ -24,12 +21,8 @@
       </dataSource>
     </environment>
   </environments>
-  
- 
   <mappers>
-   
-     <!-- <package name="com.xxx.dao"/>-->
-    
+     <package name="com.itlaobing.crm.settings.dao"/>
   </mappers>
 </configuration>
 

@@ -4,5 +4,12 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
-
+    <servlet>
+        <servlet-name>UserController</servlet-name>
+        <servlet-class>com.itlaobing.crm.settings.web.controller.UserController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserController</servlet-name>
+        <url-pattern>/settings/user/xxx.do</url-pattern>
+    </servlet-mapping>
 </web-app>
