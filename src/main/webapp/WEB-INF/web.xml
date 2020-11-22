@@ -4,12 +4,27 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+    <!--
+        注册过滤器一定要在最前面
+    -->
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>com.itlaobing.crm.web.filter.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <!--
+            只需要过滤后台，且jsp文件也需要过滤，但是jsp文件已经给我们过滤好了
+            如果使用*.后缀名的形式，前面一定不要加"/"
+        -->
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>UserController</servlet-name>
         <servlet-class>com.itlaobing.crm.settings.web.controller.UserController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
-        <url-pattern>/settings/user/xxx.do</url-pattern>
+        <url-pattern>/settings/user/login.do</url-pattern>
     </servlet-mapping>
 </web-app>

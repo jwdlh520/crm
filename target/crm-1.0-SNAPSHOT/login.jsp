@@ -9,7 +9,7 @@
     <base href=" <%=basePath%>">
     <meta charset="UTF-8">
     <link href="jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
-    <script type="text/javascript" src="jquery/jquery-1.11.1-min.js"></script>
+    <script type="text/javascript" src="jquery/jquery-3.4.1.js"></script>
     <script type="text/javascript" src="jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
     <script type="text/javascript">
 
@@ -24,27 +24,13 @@
             //3.给登陆按钮绑定鼠标单击事件
             $("#loginBtn").click(function () {
                 //判断账号和密码是否为空,需要去除左右的空格，使用trim() jQuery中有一个$.trim(文本值);
-                var loginAct = $.trim($("#loginAct").val());
-                var loginPwd = $.trim($("#loginPwd").val());
-                if (loginAct == "" || loginPwd == ""){
-                    //输出错误信息
-                    $("#msg").html("账号和密码不能为空！！！");
-                }else {
-                    login();
-                }
+               login();
             });
 
             //4.使用回车键也可以出发登录事件
             $(window).keydown(function (event) {
                if (event.keyCode == 13){
-                   var loginAct = $.trim($("#loginAct").val());
-                   var loginPwd = $.trim($("#loginPwd").val());
-                   if (loginAct == "" || loginPwd == ""){
-                       //输出错误信息
-                       $("#msg").html("账号和密码不能为空！！！");
-                   }else {
                        login();
-                   }
                }
             });
         })
@@ -54,7 +40,30 @@
         *       原因：在后面的动态生成标签的时候，如果写在里面，可能会加载不出来
         * */
         function login() {
-            alert("鼠标单击事件111");
+            var loginAct = $.trim($("#loginAct").val());
+            var loginPwd = $.trim($("#loginPwd").val());
+            if (loginAct == "" || loginPwd == ""){
+                //输出错误信息
+                $("#msg").html("账号和密码不能为空！！！");
+                return false;
+            }
+                $.ajax({
+                    url : "settings/user/login.do",
+                    data : {
+                        "loginAct" : loginAct,
+                        "loginPwd" : loginPwd
+                    },
+                    dataType : "json",
+                    type : "post",
+                    success : function (data) {
+                        //json对象中信息{success:true/false,msg:错误的信息}
+                        if (data.success){
+                            document.location.href="workbench/index.html";
+                        }else {
+                            $("#msg").html(data.msg);
+                        }
+                    }
+                })
         }
     </script>
 </head>

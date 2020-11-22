@@ -7,7 +7,7 @@
   <properties resource="jdbc.properties"/>
   
   <typeAliases>
-  	<package name="com.itlaobing.crm.settings.dao"/>
+  	<package name="com.itlaobing.crm.settings.domain"/>
   </typeAliases>
   
   <environments default="development">

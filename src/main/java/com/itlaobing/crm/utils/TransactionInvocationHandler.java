@@ -22,7 +22,8 @@ public class TransactionInvocationHandler implements InvocationHandler{
 		SqlSession session = null;
 		
 		Object obj = null;
-		
+
+		//
 		try{
 			session = SqlSessionUtil.getSqlSession();
 			
@@ -31,9 +32,9 @@ public class TransactionInvocationHandler implements InvocationHandler{
 			session.commit();
 		}catch(Exception e){
 			session.rollback();
-			e.printStackTrace();
+			//e.printStackTrace();
 			
-			//处理的是什么异常，继续往上抛什么异常
+			//处理的是什么异常，继续往上抛什么异常，这个很重要！！！
 			throw e.getCause();
 		}finally{
 			SqlSessionUtil.myClose(session);

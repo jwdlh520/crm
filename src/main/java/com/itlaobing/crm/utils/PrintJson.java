@@ -20,6 +20,7 @@ public class PrintJson {
 		
 		ObjectMapper om = new ObjectMapper();
 		try {
+
 			//{"success":true}
 			String json = om.writeValueAsString(map);
 			response.getWriter().print(json);
@@ -56,6 +57,7 @@ public class PrintJson {
 		
 		ObjectMapper om = new ObjectMapper();
 		try {
+
 			String json = om.writeValueAsString(obj);
 			response.getWriter().print(json);
 		} catch (JsonGenerationException e) {

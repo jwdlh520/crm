@@ -9,7 +9,7 @@
     <base href=" <%=basePath%>">
     <meta charset="UTF-8">
     <link href="jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
-    <script type="text/javascript" src="jquery/jquery-1.11.1-min.js"></script>
+    <script type="text/javascript" src="jquery/jquery-3.4.1.js"></script>
     <script type="text/javascript" src="jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
     <script type="text/javascript">
 
@@ -45,9 +45,25 @@
             if (loginAct == "" || loginPwd == ""){
                 //输出错误信息
                 $("#msg").html("账号和密码不能为空！！！");
-            }else {
-                alert("鼠标单击事件111");
+                return false;
             }
+                $.ajax({
+                    url : "settings/user/login.do",
+                    data : {
+                        "loginAct" : loginAct,
+                        "loginPwd" : loginPwd
+                    },
+                    dataType : "json",
+                    type : "post",
+                    success : function (data) {
+                        //json对象中信息{success:true/false,msg:错误的信息}
+                        if (data.success){
+                            document.location.href="workbench/index.html";
+                        }else {
+                            $("#msg").html(data.msg);
+                        }
+                    }
+                })
         }
     </script>
 </head>
