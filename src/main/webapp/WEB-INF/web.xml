@@ -38,11 +38,11 @@
     </servlet>
     <!--Activity业务-->
     <servlet>
-        <servlet-name>ActivityServlet</servlet-name>
-        <servlet-class>com.itlaobing.crm.workbench.web.controller.ActivityServlet</servlet-class>
+        <servlet-name>ActivityController</servlet-name>
+        <servlet-class>com.itlaobing.crm.workbench.web.controller.ActivityController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ActivityServlet</servlet-name>
+        <servlet-name>ActivityController</servlet-name>
         <url-pattern>/workbench/activity/QueryUserAll.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
