@@ -12,6 +12,7 @@
         <filter-class>com.itlaobing.crm.web.filter.EncodingFilter</filter-class>
     </filter>
     <filter-mapping>
+        <!--字符过滤器-->
         <filter-name>EncodingFilter</filter-name>
         <!--
             只需要过滤后台，且jsp文件也需要过滤，但是jsp文件已经给我们过滤好了
@@ -19,7 +20,7 @@
         -->
         <url-pattern>*.do</url-pattern>
     </filter-mapping>
-
+        <!--恶意登录过滤器-->
     <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>com.itlaobing.crm.web.filter.LoginFilter</filter-class>
@@ -30,10 +31,20 @@
         <url-pattern>*.jsp</url-pattern>
         <url-pattern>*.html</url-pattern>
     </filter-mapping>
+    <!--User业务-->
     <servlet>
         <servlet-name>UserController</servlet-name>
         <servlet-class>com.itlaobing.crm.settings.web.controller.UserController</servlet-class>
     </servlet>
+    <!--Activity业务-->
+    <servlet>
+        <servlet-name>ActivityServlet</servlet-name>
+        <servlet-class>com.itlaobing.crm.workbench.web.controller.ActivityServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ActivityServlet</servlet-name>
+        <url-pattern>/workbench/activity/QueryUserAll.do</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/settings/user/login.do</url-pattern>
