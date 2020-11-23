@@ -8,6 +8,7 @@
   
   <typeAliases>
   	<package name="com.itlaobing.crm.settings.domain"/>
+    <package name="com.itlaobing.crm.workbench.domain"/>
   </typeAliases>
   
   <environments default="development">
@@ -23,6 +24,7 @@
   </environments>
   <mappers>
      <package name="com.itlaobing.crm.settings.dao"/>
+    <package name="com.itlaobing.crm.workbench.dao"/>
   </mappers>
 </configuration>
 
