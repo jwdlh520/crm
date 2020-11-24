@@ -28,6 +28,15 @@
             * 		需要获取模态窗口的jQuery对象，调用modal方法，为该方法传递参数show：打开模态窗口 hid：隐藏模态窗口
             * */
             $("#addBtn").click(function () {
+                //引入bootStrap的日期框架，使用class标签
+                $(".time").datetimepicker({
+                    minView: "month",
+                    language: 'zh-CN',
+                    format: 'yyyy-mm-dd',
+                    autoclose: true,
+                    todayBtn: true,
+                    pickerPosition: "bottom-left"
+                });
                 //这样就可以在打开模态窗口之前添加其他的操作了。
                 //注意：id选择器一定不要忘记"#"
 
@@ -45,18 +54,59 @@
                             html += "<option value = '" + n.id + "'>" + n.name + "</option>";
                         })
                         //一定要加"#"
-                        $("#create-marketActivityOwner").html(html);
+                        $("#create-owner").html(html);
 
                         //默认当前登陆用户为默认选中
                         /*
                         * 	在js中使用el表达式，需要将el表达式写在字符串里面，否则无法识别
                         * */
                         var id = "${user.id}";
-                        $("#create-marketActivityOwner").val(id);
+                        $("#create-owner").val(id);
                     }
                 })
 
                 $("#createActivityModal").modal("show");
+            });
+
+            //给保存按钮绑定事件
+            $("#saveBtn").click(function () {
+                $.ajax({
+                    url: "workbench/activity/save.do",
+                    dataType: "json",
+                    //增删改查登录使用post 其他的使用get
+                    type: "post",
+                    data: {
+                        owner: $.trim($("#create-owner").val()),
+                        name: $.trim($("#create-name").val()),
+                        startDate: $.trim($("#create-startTime").val()),
+                        endDate: $.trim($("#create-endTime").val()),
+                        cost: $.trim($("#create-cost").val()),
+                        description: $.trim($("#create-description").val())
+                    },
+                    success: function (data) {
+                        //data：{success:true/false}
+                        if (data.success) {
+                            //添加成功
+                            //刷新活动列表(局部刷新)
+
+                            //清空模态窗口的表单信息
+                            /*
+                            * 注意：对于表单元素，使用js代码进行表单的提交和重置的操作：
+                            *       提交可以使用jQuery代码调用submit()方法，但是重置只能使用原生js调用reset()方法，虽然jQuery中有reset()方法，但是不起作用
+                            *
+                            *       jQuery对象转换为dom对象：
+                            *           $("#xxx")[i]    $("#xxx").get(i)
+                            *       dom对象转换为jQuery对象：
+                            *           $(dom)
+                            * */
+                            $("#create-form")[0].reset();
+                            //关闭模态窗口
+                            $("#createActivityModal").modal("hide");
+                        } else {
+                            alert("活动信息添加失败");
+                        }
+                    }
+                });
             });
         });
 
@@ -75,31 +125,34 @@
             </div>
             <div class="modal-body">
 
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" role="form" id="create-form">
 
                     <div class="form-group">
                         <label for="create-marketActivityOwner" class="col-sm-2 control-label">所有者<span
                                 style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <select class="form-control" id="create-marketActivityOwner">
+                            <select class="form-control" id="create-owner">
 
                             </select>
                         </div>
                         <label for="create-marketActivityName" class="col-sm-2 control-label">名称<span
                                 style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="create-marketActivityName">
+                            <input type="text" class="form-control" id="create-name">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="create-startTime" class="col-sm-2 control-label">开始日期</label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="create-startTime">
+                            <%--
+                                使用readonly属性使输入框为只能读，不能手写，但是可以选择日期
+                            --%>
+                            <input type="text" class="form-control time" id="create-startTime" readonly>
                         </div>
                         <label for="create-endTime" class="col-sm-2 control-label">结束日期</label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="create-endTime">
+                            <input type="text" class="form-control time" id="create-endTime" readonly>
                         </div>
                     </div>
                     <div class="form-group">
@@ -112,7 +165,7 @@
                     <div class="form-group">
                         <label for="create-describe" class="col-sm-2 control-label">描述</label>
                         <div class="col-sm-10" style="width: 81%;">
-                            <textarea class="form-control" rows="3" id="create-describe"></textarea>
+                            <textarea class="form-control" rows="3" id="create-description"></textarea>
                         </div>
                     </div>
 
@@ -120,8 +173,15 @@
 
             </div>
             <div class="modal-footer">
+                <%--
+                    对于保存按钮，我们在保存活动信息的时候，需要发送给服务器一个ajax请求，效果为：
+                        1.活动信息存储在活动表中
+                        2.在市场活动列表中显示出新添加的活动信息（局部刷新）
+
+                        data-dismiss="modal" ：关闭模态窗口
+                --%>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+                <button type="button" class="btn btn-primary" id="saveBtn">保存</button>
             </div>
         </div>
     </div>
