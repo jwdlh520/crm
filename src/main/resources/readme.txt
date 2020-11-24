@@ -21,3 +21,18 @@ jsp绝对路径配置：
     <html>
     <head>
     	<base href=" <%=basePath%>">
+
+活动信息的添加：
+    String id = UUIDUtil.getUUID();
+    String owner = request.getParameter("owner");
+    String name = request.getParameter("name");
+    String startDate = request.getParameter("startDate");
+    String endDate = request.getParameter("endDate");
+    String cost = request.getParameter("cost");
+    String description = request.getParameter("description");
+    //当前系统时间
+    String createTime = DateTimeUtil.getSysTime();
+    //当前登录用户
+    String createBy = ((User) request.getSession().getAttribute("user")).getName();
+    String editTime = request.getParameter("");
+    String editBy = request.getParameter("");
