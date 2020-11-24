@@ -77,6 +77,20 @@
     </dependencies>
     <build>
         <resources>
+            <!--
+                将resources下的资源也在target中
+            -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.tld</include>
+                    <include>**/*.xls</include>
+                    <include>**/*.xlsx</include>
+                    <include>**/*.txt</include>
+                </includes>
+            </resource>
             <resource>
                 <directory>src/main/java</directory><!--所在的目录-->
                 <includes><!--包括目录下的.properties,.xml文件都会扫描到-->
