@@ -1,12 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
- PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
- "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.itlaobing.crm.workbench.dao.ActivityDao">
     <insert id="save">
-        insert into tbl_activity(id,owner,name,startDate,endDate,cost,description,createTime,createBy) values(#{id},#{owner},#{name},#{startDate},#{endDate},#{cost},#{description},#{createTime},#{createBy})
+        insert into tbl_activity(id,owner,name,startDate,endDate,cost,description,createTime,createBy)
+        values(#{id},#{owner},#{name},#{startDate},#{endDate},#{cost},#{description},#{createTime},#{createBy})
     </insert>
+    <select id="getTotalByCondition" resultType="int">
+        select count(*) from tbl_activity a join tbl_user u on a.owner = u.id
+        <where>
+            <if test="name!=null and name!=''">
+                a.name like '%' #{name} '%'
+            </if>
+            <if test="owner!=null and owner!=''">
+                and u.name like '%' #{owner} '%'
+            </if>
+            <if test="startTime!=null and startTime!=''">
+                <!--
+                    &gt; : 大于
+                    &lt; : 小于
+                -->
+                and a.startDate &gt; #{startDate}
+            </if>
+            <if test="endTime!=null and endTime!=''">
+                and a.endDate &lt; #{endDate}
+            </if>
+        </where>
+    </select>
+    <select id="getDataListByCondition" resultType="Activity">
+        select
+        a.id,
+        a.name,
+        u.name as owner,
+        a.startDate,
+        a.endDate
+        from tbl_activity  a join tbl_user u on
+        a.owner = u.id
+        <where>
+            <if test="name!=null and name!=''">
+                a.name like '%' #{name} '%'
+            </if>
+            <if test="owner!=null and owner!=''">
+                and u.name like '%' #{owner} '%'
+            </if>
+            <if test="startTime!=null and startTime!=''">
+                <!--
+                    &gt; : 大于
+                    &lt; : 小于
+                -->
+                and a.startDate &gt; #{startDate}
+            </if>
+            <if test="endTime!=null and endTime!=''">
+                and a.endDate &lt; #{endDate}
+            </if>
+        </where>
+        <!--
+          降序排列
+        -->
+        order by a.createTime desc limit #{skipNo},#{pageSize}
+    </select>
 </mapper>
 
 
