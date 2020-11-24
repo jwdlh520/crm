@@ -1,4 +1,4 @@
- ajax请求：
+ajax请求：
     $.ajax({
 				url : "",
 				dataType : "json",
