@@ -108,8 +108,67 @@
                     }
                 });
             });
+
+            //查询按钮绑定事件
+            $("#searchBtn").click(function () {
+                pageList(1, 2);
+            });
+
+            //在页面加载完成之后，向后台获取数据，刷新列表
+            //在第一页展现两条记录
+            pageList(1, 2);
         });
 
+        function pageList(pageNo, pageSize) {
+            /*
+                对于所有的关系型数据库，前端分页操作的基础组件就是pageList(pageNo,pageSize)方法
+                    pageNo：页数
+                    pageSize：一页的条数
+
+                pageList()方法就是向后台发送ajax请求，从后台获取到最新的活动信息，局部刷新活动列表
+
+                我们在哪些情况下需要调用pageList(pageNo,pageSize)方法？
+                    1.点击市场活动进入index.jsp时
+                    2.点击创建，修改，删除按钮的时候
+                    3.点击查询按钮的时候
+                    4.点击分页的组件的时候
+                一共有6个入口需要使用到pageList()方法，我们需要调用该方法发送ajax请求进行局部刷新
+            * */
+            $.ajax({
+                url: "workbench/activity/pageList.do",
+                dataType: "json",
+                type: "get",
+                //查询语句使用动态sql
+                data: {
+                    "pageNo": pageNo,
+                    "pageSize": pageSize,
+                    "name": $.trim($("#search-name").val()),
+                    "owner": $.trim($("#search-owner").val()),
+                    "startDate": $.trim($("#search-startTime").val()),
+                    "endDate": $.trim($("#search-endTime").val()),
+                },
+                success: function (data) {
+                    //我们需要的是活动信息列表，分页插件需要的是总条数
+                    //data:{"total" : xxx,"pageList" : [{活动信息1},{活动信息2}，...]}
+                    var html = "";
+                    $.each(data.dataList, function (i, n) {
+                        //n代表每一个活动对象
+                        html += '<tr class="active">';
+                        //复选框的value值应该为活动的id
+                        html += '<td><input type="checkbox" value="'+n.id+'"/></td>';
+                        html += '<td><a style="text-decoration: none; cursor: pointer;"';
+                        //''里面包含""，""又包含''，这时候需要转义;
+                        html += 'onclick="window.location.href=\'workbench/activity/detail.jsp\';">'+n.name+'</a></td>';
+                        //数据库中的活动表的owner是用户表中用户的id值。因为option的value值就是用户的id。所以在后台需要结合用户表将owner转换为姓名
+                        html += '<td>'+n.owner+'</td>';
+                        html += '<td>'+n.startDate+'</td>';
+                        html += '<td>'+n.endDate+'</td>';
+                        html += '</tr>';
+                    });
+                    $("#pageListBody").html(html);
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -271,14 +330,14 @@
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">名称</div>
-                        <input class="form-control" type="text">
+                        <input class="form-control" type="text" id="search-name">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">所有者</div>
-                        <input class="form-control" type="text">
+                        <input class="form-control" type="text" id="search-owner">
                     </div>
                 </div>
 
@@ -286,17 +345,17 @@
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">开始日期</div>
-                        <input class="form-control" type="text" id="startTime"/>
+                        <input class="form-control" type="text" id="search-startTime"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">结束日期</div>
-                        <input class="form-control" type="text" id="endTime">
+                        <input class="form-control" type="text" id="search-endTime">
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-default">查询</button>
+                <button type="button" id="searchBtn" class="btn btn-default">查询</button>
 
             </form>
         </div>
@@ -332,8 +391,8 @@
                     <td>结束日期</td>
                 </tr>
                 </thead>
-                <tbody>
-                <tr class="active">
+                <tbody id="pageListBody">
+                <%--<tr class="active">
                     <td><input type="checkbox"/></td>
                     <td><a style="text-decoration: none; cursor: pointer;"
                            onclick="window.location.href='workbench/activity/detail.jsp';">发传单</a></td>
@@ -348,7 +407,7 @@
                     <td>zhangsan</td>
                     <td>2020-10-10</td>
                     <td>2020-10-20</td>
-                </tr>
+                </tr>--%>
                 </tbody>
             </table>
         </div>
