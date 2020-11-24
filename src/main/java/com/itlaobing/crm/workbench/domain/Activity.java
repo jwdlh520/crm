@@ -9,8 +9,8 @@ public class Activity {
    private String cost; //成本
    private String description;  //描述
    private String createTime;   //创建时间
-   private String createBy; //创建人 年月日 时分秒
-   private String editTime; //修改时间 你那月日 时分秒
+   private String createBy; //创建人
+   private String editTime; //修改时间 年月日 时分秒
    private String editBy;   //修改人
 
     public String getId() {
