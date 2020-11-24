@@ -40,8 +40,6 @@ public class UserController extends HttpServlet {
         System.out.println(loginPwd);
         //获取ip地址
         String ip = request.getRemoteAddr();
-        System.out.println("ip:"+ ip);
-
         //获取动态代理对象,以后统一用代理类对象
         UserService userService = (UserService) ServiceFactory.getService(new UserServiceImpl());
         System.out.println("------------");
@@ -51,9 +49,6 @@ public class UserController extends HttpServlet {
             User user = userService.login(loginAct,loginPwd,ip);
             //查询到了，传输给前端的信息为：success:true
             request.getSession().setAttribute("user",user);
-            System.out.println(user);
-            User user1 = (User) request.getSession().getAttribute("user");
-            System.out.println(user1);
             PrintJson.printJsonFlag(response,true);
         }catch (Exception e){
             //如果到了这里，说明没有查询到，这时候需要向前端传输错误信息
