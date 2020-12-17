@@ -12,6 +12,7 @@
         <filter-class>com.itlaobing.crm.web.filter.EncodingFilter</filter-class>
     </filter>
     <filter-mapping>
+        <!--字符过滤器-->
         <filter-name>EncodingFilter</filter-name>
         <!--
             只需要过滤后台，且jsp文件也需要过滤，但是jsp文件已经给我们过滤好了
@@ -19,7 +20,7 @@
         -->
         <url-pattern>*.do</url-pattern>
     </filter-mapping>
-
+        <!--恶意登录过滤器-->
     <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>com.itlaobing.crm.web.filter.LoginFilter</filter-class>
@@ -30,6 +31,15 @@
         <url-pattern>*.jsp</url-pattern>
         <url-pattern>*.html</url-pattern>
     </filter-mapping>
+    <!--过滤器结束-->
+    
+    <!--全局作用域对象监听器 开始-->
+    <listener>
+        <listener-class>com.itlaobing.crm.web.listener.ServletContextListener</listener-class>
+    </listener>
+    <!--全局作用域对象监听器 结束-->
+    
+    <!--User业务开始-->
     <servlet>
         <servlet-name>UserController</servlet-name>
         <servlet-class>com.itlaobing.crm.settings.web.controller.UserController</servlet-class>
@@ -38,4 +48,84 @@
         <servlet-name>UserController</servlet-name>
         <url-pattern>/settings/user/login.do</url-pattern>
     </servlet-mapping>
+    <!--User业务结束-->
+    <!--Activity业务开始-->
+    <servlet>
+        <servlet-name>ActivityController</servlet-name>
+        <servlet-class>com.itlaobing.crm.workbench.web.controller.ActivityController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ActivityController</servlet-name>
+        <url-pattern>/workbench/activity/QueryUserAll.do</url-pattern>
+        <url-pattern>/workbench/activity/save.do</url-pattern>
+        <url-pattern>/workbench/activity/pageList.do</url-pattern>
+        <url-pattern>/workbench/activity/delete.do</url-pattern>
+        <url-pattern>/workbench/activity/get.do</url-pattern>
+        <url-pattern>/workbench/activity/update.do</url-pattern>
+        <url-pattern>/workbench/activity/detail.do</url-pattern>
+        <url-pattern>/workbench/activity/remarkList.do</url-pattern>
+        <url-pattern>/workbench/activity/delRemark.do</url-pattern>
+        <url-pattern>/workbench/activity/saveRemark.do</url-pattern>
+        <url-pattern>/workbench/activity/updateRemark.do</url-pattern>
+    </servlet-mapping>
+    <!--Activity业务结束-->
+    <!--
+        线索模块开始
+    -->
+    <servlet>
+        <servlet-name>ClueController</servlet-name>
+        <servlet-class>com.itlaobing.crm.workbench.web.controller.ClueController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ClueController</servlet-name>
+        <url-pattern>/workbench/clue/QueryUserAll.do</url-pattern>
+        <url-pattern>/workbench/clue/save.do</url-pattern>
+        <url-pattern>/workbench/clue/detail.do</url-pattern>
+        <url-pattern>/workbench/clue/activityList.do</url-pattern>
+        <url-pattern>/workbench/clue/dissociate.do</url-pattern>
+        <url-pattern>/workbench/clue/pageList.do</url-pattern>
+        <url-pattern>/workbench/clue/bund.do</url-pattern>
+        <url-pattern>/workbench/clue/pageListByName.do</url-pattern>
+        <url-pattern>/workbench/clue/convert.do</url-pattern>
+    </servlet-mapping>
+    <!--
+        线索模块结束
+    -->
+
+    <!--
+        交易模块开始
+    -->
+    <servlet>
+        <servlet-name>TransactionController</servlet-name>
+        <servlet-class>com.itlaobing.crm.workbench.web.controller.TransactionController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TransactionController</servlet-name>
+        <url-pattern>/workbench/transaction/add.do</url-pattern>
+        <url-pattern>/workbench/transaction/getCustomerName.do</url-pattern>
+        <url-pattern>/workbench/transaction/save.do</url-pattern>
+        <url-pattern>/workbench/transaction/getTranList.do</url-pattern>
+        <url-pattern>/workbench/transaction/detail.do</url-pattern>
+        <url-pattern>/workbench/transaction/showHistoryList.do</url-pattern>
+        <url-pattern>/workbench/transaction/changeStage.do</url-pattern>
+        <url-pattern>/workbench/transaction/echarts.do</url-pattern>
+    </servlet-mapping>
+    <!--
+        交易模块结束
+    -->
+
+    <!--
+        字典模块开始
+    -->
+    <servlet>
+        <servlet-name>DicController</servlet-name>
+        <servlet-class>com.itlaobing.crm.settings.web.controller.DicController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DicController</servlet-name>
+        <url-pattern>/settings/dic/xxx.do</url-pattern>
+    </servlet-mapping>
+    <!--
+        字典模块结束
+    -->
 </web-app>

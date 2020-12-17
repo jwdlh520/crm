@@ -14,4 +14,19 @@ public interface ActivityDao {
     Integer getTotalByCondition(Map<String, Object> map);
 
     List<Activity> getDataListByCondition(Map<String, Object> map);
+
+    int deleteCount(String[] ids);
+
+    Activity findById(String id);
+
+    Integer update(Activity activity);
+
+    Activity detail(String id);
+
+    List<Activity> activityList(String id);
+
+    List<Activity> pageListByConditionAndNotClueId(Map<String, Object> map);
+
+    List<Activity> pageListByName(String name);
+
 }

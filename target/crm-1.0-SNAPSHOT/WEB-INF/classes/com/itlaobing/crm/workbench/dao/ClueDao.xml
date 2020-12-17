@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itlaobing.crm.workbench.dao.ClueDao">
+
+    <delete id="delete">
+        delete from tbl_clue where id = #{clueId}
+    </delete>
+
+    <select id="getById" resultType="Clue">
+        select * from tbl_clue where id = #{id}
+    </select>
+
+    <select id="detail" resultType="Clue">
+        select
+            c.address,
+            c.appellation,
+            c.company,
+            c.contactSummary,
+            c.createBy,
+            c.createTime,
+            c.description,
+            c.editBy,
+            c.editTime,
+            c.email,
+            c.fullname,
+            c.id,
+            c.job,
+            c.mphone,
+            c.nextContactTime,
+            u.name as owner,
+            c.phone,
+            c.source,
+            c.state,
+            c.website
+        from tbl_clue c join tbl_user u on
+            c.owner = u.id
+        where c.id = #{id}
+    </select>
+
+	<insert id="save">
+        insert into tbl_clue(
+            address,
+            appellation,
+            company,
+            contactSummary,
+            createBy,
+            createTime,
+            description,
+            email,
+            fullname,
+            id,
+            job,
+            mphone,
+            nextContactTime,
+            owner,
+            phone,
+            source,
+            state,
+            website
+        ) values(
+            #{address},
+            #{appellation},
+            #{company},
+            #{contactSummary},
+            #{createBy},
+            #{createTime},
+            #{description},
+            #{email},
+            #{fullname},
+            #{id},
+            #{job},
+            #{mphone},
+            #{nextContactTime},
+            #{owner},
+            #{phone},
+            #{source},
+            #{state},
+            #{website}
+        )
+    </insert>
+  	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

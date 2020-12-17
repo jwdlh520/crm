@@ -39,7 +39,7 @@
             });
 
             //在页面加载完毕后，打开目标文件。因为现在使用的jsp文件，需要使用绝对路径，相对路径失效
-            window.open("workbench/main/index.html", "workareaFrame");
+            window.open("workbench/main/index.jsp", "workareaFrame");
 
         });
 
@@ -145,7 +145,7 @@
 <!-- 顶部 -->
 <div id="top" style="height: 50px; background-color: #3C3C3C; width: 100%;">
     <div style="position: absolute; top: 5px; left: 0px; font-size: 30px; font-weight: 400; color: white; font-family: 'times new roman'">
-        CRM &nbsp;<span style="font-size: 12px;">&copy;2017&nbsp;动力节点</span></div>
+        CRM &nbsp;<span style="font-size: 12px;">&copy;2017&nbsp;今晚打老虎</span></div>
     <div style="position: absolute; top: 15px; right: 15px;">
         <ul>
             <li class="dropdown user-dropdown">
@@ -178,7 +178,7 @@
     <div id="navigation" style="left: 0px; width: 18%; position: relative; height: 100%; overflow:auto;">
 
         <ul id="no1" class="nav nav-pills nav-stacked">
-            <li class="liClass"><a href="workbench/main/index.html" target="workareaFrame"><span
+            <li class="liClass"><a href="workbench/main/index.jsp" target="workareaFrame"><span
                     class="glyphicon glyphicon-home"></span> 工作台</a></li>
             <li class="liClass"><a href="javascript:void(0);" target="workareaFrame"><span
                     class="glyphicon glyphicon-tag"></span> 动态</a></li>
@@ -188,28 +188,28 @@
                     class="glyphicon glyphicon-user"></span> 客户公海</a></li>
             <li class="liClass"><a href="workbench/activity/index.jsp" target="workareaFrame"><span
                     class="glyphicon glyphicon-play-circle"></span> 市场活动</a></li>
-            <li class="liClass"><a href="workbench/clue/index.html" target="workareaFrame"><span
+            <li class="liClass"><a href="workbench/clue/index.jsp" target="workareaFrame"><span
                     class="glyphicon glyphicon-search"></span> 线索（潜在客户）</a></li>
-            <li class="liClass"><a href="workbench/customer/index.html" target="workareaFrame"><span
+            <li class="liClass"><a href="workbench/customer/index.jsp" target="workareaFrame"><span
                     class="glyphicon glyphicon-user"></span> 客户</a></li>
-            <li class="liClass"><a href="workbench/contacts/index.html" target="workareaFrame"><span
+            <li class="liClass"><a href="workbench/contacts/index.jsp" target="workareaFrame"><span
                     class="glyphicon glyphicon-earphone"></span> 联系人</a></li>
-            <li class="liClass"><a href="workbench/transaction/index.html" target="workareaFrame"><span
+            <li class="liClass"><a href="workbench/transaction/index.jsp" target="workareaFrame"><span
                     class="glyphicon glyphicon-usd"></span> 交易（商机）</a></li>
-            <li class="liClass"><a href="workbench/visit/index.html" target="workareaFrame"><span
+            <li class="liClass"><a href="workbench/visit/index.jsp" target="workareaFrame"><span
                     class="glyphicon glyphicon-phone-alt"></span> 售后回访</a></li>
             <li class="liClass">
                 <a href="#no2" class="collapsed" data-toggle="collapse"><span class="glyphicon glyphicon-stats"></span>
                     统计图表</a>
                 <ul id="no2" class="nav nav-pills nav-stacked collapse">
-                    <li class="liClass"><a href="workbench/chart/activity/index.html"
+                    <li class="liClass"><a href="workbench/chart/activity/index.jsp"
                                            target="workareaFrame">&nbsp;&nbsp;&nbsp;<span
                             class="glyphicon glyphicon-chevron-right"></span> 市场活动统计图表</a></li>
-                    <li class="liClass"><a href="workbench/chart/clue/index.html" target="workareaFrame">&nbsp;&nbsp;&nbsp;<span
+                    <li class="liClass"><a href="workbench/chart/clue/index.jsp" target="workareaFrame">&nbsp;&nbsp;&nbsp;<span
                             class="glyphicon glyphicon-chevron-right"></span> 线索统计图表</a></li>
-                    <li class="liClass"><a href="workbench/chart/customerAndContacts/index.html" target="workareaFrame">&nbsp;&nbsp;&nbsp;<span
+                    <li class="liClass"><a href="workbench/chart/customerAndContacts/index.jsp" target="workareaFrame">&nbsp;&nbsp;&nbsp;<span
                             class="glyphicon glyphicon-chevron-right"></span> 客户和联系人统计图表</a></li>
-                    <li class="liClass"><a href="workbench/chart/transaction/index.html" target="workareaFrame">&nbsp;&nbsp;&nbsp;<span
+                    <li class="liClass"><a href="workbench/chart/transaction/index.jsp" target="workareaFrame">&nbsp;&nbsp;&nbsp;<span
                             class="glyphicon glyphicon-chevron-right"></span> 交易统计图表</a></li>
                 </ul>
             </li>

@@ -5,7 +5,9 @@ import com.itlaobing.crm.settings.service.UserService;
 import com.itlaobing.crm.settings.service.impl.UserServiceImpl;
 import com.itlaobing.crm.utils.*;
 import com.itlaobing.crm.vo.PaginationVO;
+import com.itlaobing.crm.workbench.dao.Activity_remarkDao;
 import com.itlaobing.crm.workbench.domain.Activity;
+import com.itlaobing.crm.workbench.domain.ActivityRemark;
 import com.itlaobing.crm.workbench.service.ActivityService;
 import com.itlaobing.crm.workbench.service.impl.ActivityServiceImpl;
 
@@ -32,7 +34,159 @@ public class ActivityController extends HttpServlet {
             save(request, response);
         } else if ("/workbench/activity/pageList.do".equals(path)) {
             pageList(request, response);
+        } else if ("/workbench/activity/delete.do".equals(path)) {
+            delete(request, response);
+        } else if ("/workbench/activity/get.do".equals(path)) {
+            getUserAndActivity(request, response);
+        } else if ("/workbench/activity/update.do".equals(path)) {
+            update(request, response);
+        }else if ("/workbench/activity/detail.do".equals(path)) {
+            detail(request, response);
+        }else if ("/workbench/activity/remarkList.do".equals(path)) {
+           remarkList(request, response);
+        }else if ("/workbench/activity/delRemark.do".equals(path)) {
+            delRemark(request, response);
+        }else if ("/workbench/activity/saveRemark.do".equals(path)) {
+            saveRemark(request, response);
+        }else if ("/workbench/activity/updateRemark.do".equals(path)) {
+            updateRemark(request, response);
         }
+    }
+
+    /*
+        修改备注
+    * */
+    private void updateRemark(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入修改备注操作");
+        String id = request.getParameter("id");
+        String noteContent = request.getParameter("noteContent");
+        String editTime = DateTimeUtil.getSysTime();
+        String editBy = ((User)request.getSession().getAttribute("user")).getName();
+        String editFlag = "1";
+        ActivityRemark remark = new ActivityRemark();
+        remark.setId(id);
+        remark.setNoteContent(noteContent);
+        remark.setEditTime(editTime);
+        remark.setEditBy(editBy);
+        remark.setEditFlag(editFlag);
+        ActivityService activityService = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        boolean flag = activityService.updateRemark(remark);
+        Map<String,Object> map = new HashMap<>();
+        map.put("success",flag);
+        map.put("remark",remark);
+        PrintJson.printJsonObj(response,map);
+    }
+
+    /*
+        添加备注
+    * */
+    private void saveRemark(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入到添加备注操作");
+        String id = UUIDUtil.getUUID();
+        String noteContent = request.getParameter("noteContent");
+        String activityId = request.getParameter("activityId");
+        String createTime = DateTimeUtil.getSysTime();
+        //当前登录用户
+        String createBy = ((User) request.getSession().getAttribute("user")).getName();
+        String editFlag = "0";
+        ActivityRemark activityRemark = new ActivityRemark();
+        activityRemark.setId(id);
+        activityRemark.setNoteContent(noteContent);
+        activityRemark.setCreateTime(createTime);
+        activityRemark.setCreateBy(createBy);
+        activityRemark.setActivityId(activityId);
+        activityRemark.setEditFlag(editFlag);
+        ActivityService activityService = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        boolean flag = activityService.saveRemark(activityRemark);
+        Map<String,Object> map = new HashMap<>();
+        map.put("success",flag);
+        map.put("activityRemark",activityRemark);
+        PrintJson.printJsonObj(response,map);
+    }
+
+    /*
+        删除备注
+    * */
+    private void delRemark(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入到删除备注操作");
+        String id = request.getParameter("id");
+        ActivityService activityService = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        boolean flag = activityService.delRemark(id);
+        PrintJson.printJsonFlag(response,flag);
+    }
+
+    /*
+        获取备注信息列表
+    * */
+    private void remarkList(HttpServletRequest request, HttpServletResponse response) {
+        String id = request.getParameter("id");
+        ActivityService activityService = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        List<ActivityRemark> remarks = activityService.remarkList(id);
+        PrintJson.printJsonObj(response,remarks);
+    }
+
+    /*
+        活动详细信息页
+    * */
+    private void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id = request.getParameter("id");
+        ActivityService activityService = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        Activity activity = activityService.detail(id);
+        request.setAttribute("activity",activity);
+        request.getRequestDispatcher("/workbench/activity/detail.jsp").forward(request,response);
+
+    }
+
+    /*
+        更新活动信息
+    * */
+    private void update(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入到更新活动操作");
+        //获取参数
+        String id = request.getParameter("id");
+        String owner = request.getParameter("owner");
+        String name = request.getParameter("name");
+        String startDate = request.getParameter("startDate");
+        String endDate = request.getParameter("endDate");
+        String cost = request.getParameter("cost");
+        String description = request.getParameter("description");
+        String editTime = DateTimeUtil.getSysTime();
+        String editBy = ((User)request.getSession().getAttribute("user")).getName();
+        Activity activity = new Activity();
+        activity.setId(id);
+        activity.setOwner(owner);
+        activity.setName(name);
+        activity.setStartDate(startDate);
+        activity.setEndDate(endDate);
+        activity.setCost(cost);
+        activity.setDescription(description);
+        activity.setEditTime(editTime);
+        activity.setEditBy(editBy);
+        ActivityService activityService = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        boolean flag = activityService.update(activity);
+        PrintJson.printJsonFlag(response,flag);
+    }
+
+    /*
+        获取用户列表和指定的活动对象
+    * */
+    private void getUserAndActivity(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入修改活动信息的操作");
+        String id = request.getParameter("id");
+        ActivityService activityService = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        Map<String, Object> map = activityService.getUserAndActivity(id);
+        PrintJson.printJsonObj(response, map);
+    }
+
+    /*
+     * 删除活动信息
+     * */
+    private void delete(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("执行市场活动删除操作");
+        String ids[] = request.getParameterValues("id");
+        ActivityService activityService = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        boolean flag = activityService.delete(ids);
+        PrintJson.printJsonFlag(response, flag);
     }
 
     /*
@@ -56,7 +210,7 @@ public class ActivityController extends HttpServlet {
         //将pageNo和pageSize转为Integer类型
         Integer pageNo = Integer.valueOf(pageNoStr);
         Integer pageSize = Integer.valueOf(pageSizeStr);
-        Integer skipNo = (pageNo-1)*pageSize;
+        Integer skipNo = (pageNo - 1) * pageSize;
         ActivityService activityService = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
         /*
             怎么将这些数据打包？
@@ -83,7 +237,7 @@ public class ActivityController extends HttpServlet {
         map.put("endDate", endDate);
 
         PaginationVO<Activity> paginationVO = activityService.pageList(map);
-        PrintJson.printJsonObj(response,paginationVO);
+        PrintJson.printJsonObj(response, paginationVO);
     }
 
     /*
